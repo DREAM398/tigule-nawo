@@ -41,20 +41,20 @@ export default function Login() {
     <>
       <Navbar />
 
-      <main className="flex min-h-screen items-center justify-center bg-orange-50 px-6 py-20">
-        <div className="w-full max-w-lg rounded-3xl bg-white p-10 shadow-xl">
+      <main className="flex min-h-screen items-center justify-center bg-orange-50 px-4 py-10 sm:px-6 sm:py-20">
+        <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl sm:rounded-3xl sm:p-10">
 
-          <h1 className="text-center text-5xl font-black text-gray-900">
+          <h1 className="text-center text-3xl font-black text-gray-900 sm:text-5xl">
             Welcome Back 👋
           </h1>
 
-          <p className="mt-3 text-center text-gray-500">
+          <p className="mt-2 text-center text-sm text-gray-500 sm:mt-3 sm:text-base">
             Login to your Tigule Nawo account
           </p>
 
           <form
             onSubmit={handleLogin}
-            className="mt-10 space-y-5"
+            className="mt-6 space-y-4 sm:mt-10 sm:space-y-5"
           >
 
             <input
@@ -62,7 +62,7 @@ export default function Login() {
               placeholder="Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl border border-gray-300 px-5 py-4 outline-none transition focus:border-orange-500"
+              className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-orange-500 sm:px-5 sm:py-4 sm:text-base"
               required
             />
 
@@ -71,21 +71,21 @@ export default function Login() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl border border-gray-300 px-5 py-4 outline-none transition focus:border-orange-500"
+              className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-orange-500 sm:px-5 sm:py-4 sm:text-base"
               required
             />
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-orange-500 py-4 font-bold text-white transition hover:bg-orange-600 disabled:bg-orange-300"
+              className="w-full rounded-xl bg-orange-500 py-3 text-sm font-bold text-white transition hover:bg-orange-600 disabled:bg-orange-300 sm:py-4 sm:text-base"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
 
           </form>
 
-          <p className="mt-8 text-center text-gray-500">
+          <p className="mt-6 text-center text-sm text-gray-500 sm:mt-8 sm:text-base">
             Don't have an account?{" "}
             <Link
               to="/register"
