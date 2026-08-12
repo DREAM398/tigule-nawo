@@ -1,17 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
 import { useAuth } from "../../context/AuthContext";
+import { supabase } from "../../lib/supabase";
+import { getUnreadCount } from "../../services/messageService";
 
 export default function Navbar() {
   const { session, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const user = session?.user;
 
   function closeMenu() {
     setMenuOpen(false);
+  }
+
+  useEffect(() => {
+    if (!user) {
+      setUnreadCount(0);
+      return;
+    }
+
+    loadUnreadCount();
+
+    const channel = supabase
+      .channel("navbar-unread")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "messages",
+        },
+        () => {
+          loadUnreadCount();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user?.id]);
+
+  async function loadUnreadCount() {
+    const count = await getUnreadCount();
+    setUnreadCount(count);
   }
 
   return (
@@ -58,9 +94,14 @@ export default function Navbar() {
 
               <Link
                 to="/messages"
-                className="transition duration-300 hover:text-orange-500"
+                className="relative transition duration-300 hover:text-orange-500"
               >
                 Messages
+                {unreadCount > 0 && (
+                  <span className="absolute -right-3 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                    {unreadCount > 9 ? "9+" : unreadCount}
+                  </span>
+                )}
               </Link>
 
               <Link
@@ -119,10 +160,15 @@ export default function Navbar() {
         {/* Mobile Hamburger Button */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="rounded-lg p-2 text-gray-700 lg:hidden"
+          className="relative rounded-lg p-2 text-gray-700 lg:hidden"
           aria-label="Toggle menu"
         >
           {menuOpen ? <X size={26} /> : <Menu size={26} />}
+          {!menuOpen && unreadCount > 0 && (
+            <span className="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+              {unreadCount > 9 ? "9+" : unreadCount}
+            </span>
+          )}
         </button>
 
       </div>
@@ -168,9 +214,14 @@ export default function Navbar() {
               <Link
                 to="/messages"
                 onClick={closeMenu}
-                className="rounded-lg px-3 py-3 font-medium text-gray-700 transition hover:bg-orange-50 hover:text-orange-500"
+                className="flex items-center justify-between rounded-lg px-3 py-3 font-medium text-gray-700 transition hover:bg-orange-50 hover:text-orange-500"
               >
                 Messages
+                {unreadCount > 0 && (
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                    {unreadCount > 9 ? "9+" : unreadCount}
+                  </span>
+                )}
               </Link>
 
               <Link

@@ -217,3 +217,38 @@ export async function markMessagesAsSeen(conversationId: string) {
     throw error;
   }
 }
+
+// ==========================================
+// Get Unread Message Count
+// ==========================================
+
+export async function getUnreadCount() {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return 0;
+
+  const { data: convos, error: convoError } = await supabase
+    .from("conversations")
+    .select("id")
+    .or(`buyer_id.eq.${user.id},seller_id.eq.${user.id}`);
+
+  if (convoError || !convos || convos.length === 0) return 0;
+
+  const conversationIds = convos.map((c) => c.id);
+
+  const { count, error } = await supabase
+    .from("messages")
+    .select("id", { count: "exact", head: true })
+    .in("conversation_id", conversationIds)
+    .eq("seen", false)
+    .neq("sender_id", user.id);
+
+  if (error) {
+    console.error(error);
+    return 0;
+  }
+
+  return count || 0;
+}
