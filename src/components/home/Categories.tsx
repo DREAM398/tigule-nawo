@@ -6,6 +6,7 @@ import {
   Utensils,
   Package,
   LayoutGrid,
+  Home,
 } from "lucide-react";
 
 import { useProducts } from "../../context/ProductContext";
@@ -18,6 +19,7 @@ const categories = [
   { name: "Clothes", icon: Shirt },
   { name: "Food", icon: Utensils },
   { name: "Furniture", icon: Package },
+  { name: "Housing", icon: Home },
 ];
 
 export default function Categories() {
@@ -29,7 +31,7 @@ export default function Categories() {
         Browse Categories
       </h2>
 
-      <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-5 lg:grid-cols-7">
+      <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-5 lg:grid-cols-8">
         {categories.map((category) => {
           const Icon = category.icon;
           const active = selectedCategory === category.name;

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
@@ -19,23 +20,45 @@ export default function Footer() {
 
         {/* Quick Links */}
         <div>
-          <h3 className="mb-4 text-xl font-bold">Quick Links</h3>
+          <h3 className="mb-4 text-xl font-bold">
+            Quick Links
+          </h3>
 
           <ul className="space-y-3 text-gray-400">
-            <li className="cursor-pointer hover:text-orange-500">
-              Marketplace
+            <li>
+              <Link
+                to="/marketplace"
+                className="cursor-pointer hover:text-orange-500"
+              >
+                Marketplace
+              </Link>
             </li>
 
-            <li className="cursor-pointer hover:text-orange-500">
-              Sell Item
+            <li>
+              <Link
+                to="/sell"
+                className="cursor-pointer hover:text-orange-500"
+              >
+                Sell Item
+              </Link>
             </li>
 
-            <li className="cursor-pointer hover:text-orange-500">
-              Login
+            <li>
+              <Link
+                to="/login"
+                className="cursor-pointer hover:text-orange-500"
+              >
+                Login
+              </Link>
             </li>
 
-            <li className="cursor-pointer hover:text-orange-500">
-              Register
+            <li>
+              <Link
+                to="/register"
+                className="cursor-pointer hover:text-orange-500"
+              >
+                Register
+              </Link>
             </li>
           </ul>
         </div>
@@ -47,16 +70,25 @@ export default function Footer() {
           </h3>
 
           <div className="space-y-4 text-gray-400">
-            <div className="flex items-center gap-3">
+            {/* Email */}
+            <a
+              href="mailto:support@tigulenawo.com"
+              className="flex items-center gap-3 hover:text-orange-500"
+            >
               <Mail size={18} />
               <span>support@tigulenawo.com</span>
-            </div>
+            </a>
 
-            <div className="flex items-center gap-3">
+            {/* Phone */}
+            <a
+              href="tel:+265984554270"
+              className="flex items-center gap-3 hover:text-orange-500"
+            >
               <Phone size={18} />
               <span>+265 984 554 270</span>
-            </div>
+            </a>
 
+            {/* Location */}
             <div className="flex items-center gap-3">
               <MapPin size={18} />
               <span>Lilongwe, Malawi</span>
@@ -65,6 +97,7 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Copyright */}
       <div className="border-t border-slate-700 py-6 text-center text-sm text-gray-500">
         © 2026 Tigule Nawo. Built with ❤️ for students in Malawi 🇲🇼
       </div>

@@ -123,6 +123,7 @@ export default function Sell() {
                   <option>Clothes</option>
                   <option>Furniture</option>
                   <option>Food</option>
+                  <option>Housing</option>
                 </select>
               </div>
 
@@ -133,12 +134,26 @@ export default function Sell() {
 
                 <input
                   type="text"
+                  list="campus-options"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  placeholder="LUANAR City Campus"
+                  placeholder="Select or type your campus"
                   className="w-full rounded-xl border p-3 text-sm outline-none focus:border-orange-500 sm:p-4 sm:text-base"
                   required
                 />
+
+                <datalist id="campus-options">
+                  <option value="LUANAR Bunda Campus" />
+                  <option value="LUANAR City Campus" />
+                  <option value="Chancellor College" />
+                  <option value="Malawi Polytechnic (MUBAS)" />
+                  <option value="Kamuzu University of Health Sciences" />
+                  <option value="Mzuzu University" />
+                  <option value="Malawi University of Science and Technology" />
+                  <option value="Catholic University of Malawi" />
+                  <option value="University of Livingstonia" />
+                  <option value="DMI St. Eugene University" />
+                </datalist>
               </div>
 
               <div>
