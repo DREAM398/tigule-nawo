@@ -11,6 +11,7 @@ import type { Product } from "../types/product";
 import {
   getMyProducts,
   deleteProduct,
+  toggleSoldStatus,
 } from "../services/productService";
 
 import { useProducts } from "../context/ProductContext";
@@ -56,6 +57,19 @@ export default function MyProducts() {
     alert(JSON.stringify(error));
   }
 }
+
+  async function handleToggleSold(id: string, currentSold: boolean) {
+    try {
+      await toggleSoldStatus(id, !currentSold);
+
+      await refreshProducts();
+
+      loadProducts();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update sold status.");
+    }
+  }
 //
   return (
     <>
@@ -134,26 +148,43 @@ export default function MyProducts() {
 
                   <ProductCard product={product} />
 
-                  <div className="mt-2 flex flex-col gap-2 sm:mt-4 sm:flex-row sm:justify-between sm:gap-3">
+                  <div className="mt-2 flex flex-col gap-2">
 
-                    <Link
-                      className="w-full sm:flex-1"
-                      to={`/edit-product/${product.id}`}
-                    >
-                      <Button
-                        variant="secondary"
-                      >
-                        Edit
-                      </Button>
-                    </Link>
-
-                    <Button
+                    <button
                       onClick={() =>
-                        handleDelete(product.id)
+                        handleToggleSold(product.id, product.sold)
                       }
+                      className={`w-full rounded-lg py-2 text-sm font-semibold transition sm:rounded-xl sm:py-2.5 ${
+                        product.sold
+                          ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                          : "bg-green-500 text-white hover:bg-green-600"
+                      }`}
                     >
-                      Delete
-                    </Button>
+                      {product.sold ? "Mark as Available" : "Mark as Sold"}
+                    </button>
+
+                    <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
+
+                      <Link
+                        className="w-full sm:flex-1"
+                        to={`/edit-product/${product.id}`}
+                      >
+                        <Button
+                          variant="secondary"
+                        >
+                          Edit
+                        </Button>
+                      </Link>
+
+                      <Button
+                        onClick={() =>
+                          handleDelete(product.id)
+                        }
+                      >
+                        Delete
+                      </Button>
+
+                    </div>
 
                   </div>
 

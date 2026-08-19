@@ -30,7 +30,8 @@ export async function createProduct(product: {
 export async function getProducts() {
   const { data, error } = await supabase
     .from("products")
-    .select("*");
+    .select("*")
+    .eq("sold", false);
 
   console.log("GET PRODUCTS");
   console.table(data);
@@ -105,6 +106,18 @@ export async function updateProduct(
   if (!data || data.length === 0) {
     throw new Error("No product was updated.");
   }
+
+  return data;
+}
+
+export async function toggleSoldStatus(id: string, sold: boolean) {
+  const { data, error } = await supabase
+    .from("products")
+    .update({ sold })
+    .eq("id", id)
+    .select();
+
+  if (error) throw error;
 
   return data;
 }

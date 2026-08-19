@@ -26,7 +26,9 @@ export default function ProductCard({
           <img
             src={product.image}
             alt={product.title}
-            className="h-32 w-full object-cover sm:h-56"
+            className={`h-32 w-full object-cover sm:h-56 ${
+              product.sold ? "opacity-50 grayscale" : ""
+            }`}
           />
         </Link>
 
@@ -50,9 +52,15 @@ export default function ProductCard({
           />
         </button>
 
-        <span className="absolute left-2 top-2 rounded-full bg-orange-500 px-2 py-0.5 text-[10px] font-bold text-white sm:left-3 sm:top-3 sm:px-3 sm:py-1 sm:text-xs">
-          NEW
-        </span>
+        {product.sold ? (
+          <span className="absolute left-2 top-2 rounded-full bg-gray-800 px-2 py-0.5 text-[10px] font-bold text-white sm:left-3 sm:top-3 sm:px-3 sm:py-1 sm:text-xs">
+            SOLD
+          </span>
+        ) : (
+          <span className="absolute left-2 top-2 rounded-full bg-orange-500 px-2 py-0.5 text-[10px] font-bold text-white sm:left-3 sm:top-3 sm:px-3 sm:py-1 sm:text-xs">
+            NEW
+          </span>
+        )}
       </div>
 
       <div className="space-y-1.5 p-2.5 sm:space-y-3 sm:p-5">

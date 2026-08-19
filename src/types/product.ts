@@ -8,4 +8,5 @@ export type Product = {
   location: string;
   description: string;
   image: string;
+  sold: boolean;
 };
