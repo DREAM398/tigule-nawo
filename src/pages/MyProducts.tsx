@@ -58,7 +58,7 @@ export default function MyProducts() {
   }
 }
 
-  async function handleToggleSold(id: string, currentSold: boolean) {
+  async function handleToggleSold(id: string, currentSold: boolean | undefined) {
     try {
       await toggleSoldStatus(id, !currentSold);
 
